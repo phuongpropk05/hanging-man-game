@@ -85,7 +85,7 @@ void main() {
 
 	Game* currentGame = new Game();
 
-	Word newWord;
+	Word* newWord = new Word();
 	string nWord;
 	string hWord;
 	int num = 0;
@@ -104,13 +104,13 @@ void main() {
 			char guess;
 			for (int i = 0; i < currentGame->getWordLimit(); i++) {
 				cout << "The word number " << i + 1 << ": " << endl;
-				currentGame->getOneWord(i).displayWord();
+				currentGame->getOneWord(i)->displayWord();
 				do {
 					cout << "Enter your guess: ";
 					cin >> guess;
-					cout << "There are " << currentGame->getOneWord(i).checkGuess(guess) << " character " << guess << " in this word" << endl;
-					currentGame->getOneWord(i).displayWord();
-					if (currentGame->getOneWord(i).checkGuess(guess) == 0) {
+					cout << "There are " << currentGame->getOneWord(i)->checkGuess(guess) << " character " << guess << " in this word" << endl;
+					currentGame->getOneWord(i)->displayWord();
+					if (currentGame->getOneWord(i)->checkGuess(guess) == 0) {
 						num++;
 						cout << "You have " << currentGame->getFailLimit() - num << " times left to guess" << endl;
 					}
@@ -118,7 +118,7 @@ void main() {
 						cout << "Game Over" << endl;
 						goto tt;
 					}
-				} while (currentGame->getOneWord(i).checkGuess(guess) < currentGame->getOneWord(i).getTextLength());
+				} while (currentGame->getOneWord(i)->checkGuess(guess) < currentGame->getOneWord(i)->getTextLength());
 			}
 			break;
 		case FAIL:
@@ -131,13 +131,13 @@ void main() {
 			currentGame->setWordLimit();
 			break;
 		case ADD:
-			cout << "input the word that you want to add: ";
-			cin >> nWord;
-			cout << "input the hint for this word: ";
-			cin >> hWord;
 			cin.ignore();
-			newWord.setHint(hWord);
-			newWord.setText(nWord);
+			cout << "input the word that you want to add: ";
+			getline(cin,nWord);
+			cout << "input the hint for this word: ";
+			getline(cin, hWord);
+			newWord->setHint(hWord);
+			newWord->setText(nWord);
 			currentGame->addWord(newWord);
 			break;
 		case SHOWW:
