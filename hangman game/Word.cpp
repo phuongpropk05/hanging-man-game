@@ -20,6 +20,7 @@ Word::~Word()
 void Word::setText(string text)
 {
 	this->text = text;
+	displayText = text;
 	for (int i = 0; i < text.length(); i++) {
 		displayText[i] = '_';
 	}
@@ -57,7 +58,7 @@ int Word::checkGuess(char n)
 	for (int i = 0; i < text.length(); i++) {
 		if (text[i] == n) {
 			occurence++;
-			displayText[i] = n;
+			this->displayText[i] = n;
 		}
 	}
 	return occurence;

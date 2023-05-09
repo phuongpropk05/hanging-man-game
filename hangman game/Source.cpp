@@ -20,7 +20,7 @@ enum actionType {
 	BACK
 };
 
-void main() {
+int main() {
 	Menu* mainMenu = new Menu("Main Menu", "The game main menu");
 	Menu* settingMenu = new Menu("Game setting menu", "Manage game play");
 	Menu* wordBankMenu = new Menu("Word bank menu", "Manage word bank");
@@ -88,10 +88,11 @@ void main() {
 	Word* newWord = new Word();
 	string nWord;
 	string hWord;
-	int num = 0;
+	int num = 0, occurrence;
+	bool a = true;
 
 	currentMenu->displayMenu();
-	while (true) {
+	while (a == true) {
 		int option = currentMenu->promtOption();
 		currentMenu = currentMenu->getSubMenu(option);
 		currentMenu->displayMenu();
@@ -105,6 +106,7 @@ void main() {
 			for (int i = 0; i < currentGame->getWordLimit(); i++) {
 				cout << "The word number " << i + 1 << ": " << endl;
 				currentGame->getOneWord(i)->displayWord();
+				occurrence = 0;
 				do {
 					cout << "Enter your guess: ";
 					cin >> guess;
@@ -114,12 +116,17 @@ void main() {
 						num++;
 						cout << "You have " << currentGame->getFailLimit() - num << " times left to guess" << endl;
 					}
+					else{
+						occurrence += currentGame->getOneWord(i)->checkGuess(guess);
+					}
 					if (currentGame->getFailLimit() - num == 0) {
 						cout << "Game Over" << endl;
 						goto tt;
 					}
-				} while (currentGame->getOneWord(i)->checkGuess(guess) < currentGame->getOneWord(i)->getTextLength());
+				} while (occurrence < currentGame->getOneWord(i)->getTextLength());
 			}
+			cout << "Congratulation, You have won the game" << endl;
+			currentMenu = mainMenu;
 			break;
 		case FAIL:
 			currentGame->setFailLimit();
@@ -136,9 +143,7 @@ void main() {
 			getline(cin,nWord);
 			cout << "input the hint for this word: ";
 			getline(cin, hWord);
-			newWord->setHint(hWord);
-			newWord->setText(nWord);
-			currentGame->addWord(newWord);
+			currentGame->addWord(nWord, hWord);
 			break;
 		case SHOWW:
 			cout << "The number of word in this game is: " << currentGame->getWordLimit() << endl;
@@ -166,11 +171,12 @@ void main() {
 			break;
 		case EXIT_GAME:
 			cout << "Exit the game" << endl;
+			a = false;
 			break;
 		default:
 			cout << "default action" << endl;
 		}
 	}
 
-
+	return 0;
 }

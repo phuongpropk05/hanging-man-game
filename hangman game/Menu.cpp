@@ -60,6 +60,7 @@ int Menu::getAction()
 
 void Menu::displayMenu()
 {
+	system("cls");
 	cout << "\t\t\t" << name << "\t\t\t" << endl;
 	cout << description << endl;
 	for (int i = 0; i < subMenu.size(); i++) {
@@ -70,6 +71,7 @@ void Menu::displayMenu()
 void Menu::addSubMenu(Menu* m)
 {
 	this->subMenu.push_back(m);
+	// m->subMenu.push_back(this) : auto push parent menu 
 }
 
 int Menu::promtOption()

@@ -1,5 +1,7 @@
 #include "Game.h"
 
+vector<Word*> Game::wordBank;
+
 Game::Game()
 {
 	failCount = hintCount = wordCount = 0;
@@ -61,8 +63,9 @@ int Game::getNumberWord()
 	return wordBank.size();
 }
 
-void Game::addWord(Word w)
+void Game::addWord(string text, string hint)
 {
+	Word* w = new Word(text, hint);
 	wordBank.push_back(w);
 }
 
@@ -75,23 +78,24 @@ void Game::shuffleWordBank()
 {
 	srand(time(0));
 	int count = 0;
-	while (true) {
+	bool a = true;
+	while (a == true) {
 		int ind1 = rand() % wordBank.size();
 		int ind2 = rand() % wordBank.size();
 		if (ind1 == ind2) {
 			continue;
 		}
-		Word tmp = wordBank[ind1];
+		Word* tmp = wordBank[ind1];
 		wordBank[ind1] = wordBank[ind2];
 		wordBank[ind2] = tmp;
 		count++;
 		if (count > 10) {
-			break;
+			a = false;
 		}
 	}
 }
 
-Word Game::getOneWord(int index)
+Word* Game::getOneWord(int index)
 {
 	return wordBank[index];
 }

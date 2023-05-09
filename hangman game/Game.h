@@ -12,7 +12,7 @@ class Game
 private:
 	int failCount, hintCount, wordCount;
 	int failLimit, hintLimit, wordLimit;
-	vector<Word> wordBank;
+	static vector<Word*> wordBank;
 public:
 	Game();
 	~Game();
@@ -23,9 +23,9 @@ public:
 	int getHintLimit();
 	int getWordLimit();
 	int getNumberWord();
-	void addWord(Word w);
+	void addWord(string text, string hint);
 	void resetWordBank();
 	void shuffleWordBank();
-	Word getOneWord(int index);
+	Word* getOneWord(int index);
 };
 
